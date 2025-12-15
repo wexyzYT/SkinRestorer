@@ -31,7 +31,10 @@ import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
 public final class SkinCommand {
-    
+
+    private static final String PERMISSION_CONFIG_RELOAD = SkinRestorer.MOD_ID + ".command.skin.config.reload";
+    private static final String PERMISSION_TARGETS = SkinRestorer.MOD_ID + ".command.skin.targets";
+
     private SkinCommand() {}
     
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -55,7 +58,7 @@ public final class SkinCommand {
         
         base.then(
                 literal("config")
-                        .requires(commandSourceStack -> commandSourceStack.hasPermission(4))
+                        .requires(commandSourceStack -> SkinCommand.hasPermission(commandSourceStack, 4, PERMISSION_CONFIG_RELOAD))
                         .then(literal("reload").executes(SkinCommand::configReloadSubcommand))
         );
         
@@ -269,7 +272,11 @@ public final class SkinCommand {
             BiFunction<CommandContext<CommandSourceStack>, Collection<NameAndId>, Integer> consumer
     ) {
         return argument("targets", GameProfileArgument.gameProfile())
-                .requires(source -> source.hasPermission(2))
+                .requires(source -> SkinCommand.hasPermission(source, 2, PERMISSION_TARGETS))
                 .executes(context -> consumer.apply(context, GameProfileArgument.getGameProfiles(context, "targets")));
+    }
+
+    private static boolean hasPermission(CommandSourceStack source, int level, String permission) {
+        return source.hasPermission(level, permission);
     }
 }

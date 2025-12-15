@@ -22,6 +22,16 @@ A server-side mod for managing and restoring player skins.
 For a detailed list of available commands and their usage, please visit
 the [commands wiki page](https://github.com/Suiranoil/SkinRestorer/wiki/Commands).
 
+### 🔐 Permissions
+
+Minecraft 1.21.11 introduces per-command permission identifiers. SkinRestorer registers the following permissions (with their
+default required operator levels) so they can be configured in `permissions.json` or via other permission providers:
+
+| Permission Identifier | Default Level | Purpose |
+| --- | --- | --- |
+| `skinrestorer.command.skin.targets` | 2 | Allows specifying other players in `skin` commands. |
+| `skinrestorer.command.skin.config.reload` | 4 | Allows reloading the SkinRestorer configuration. |
+
 ## ❌ Known Incompatibilities
 
 - **[Arclight](https://github.com/IzzelAliz/Arclight) (<=1.20.1)**: Trials or older versions are not compatible due to
